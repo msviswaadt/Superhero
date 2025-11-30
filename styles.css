@@ -1,0 +1,195 @@
+/* ...existing code... */
+
+/* Refreshed color palette (blues & black) + subtle animations */
+:root{
+  --bg-start: #0b1220;        /* deep navy */
+  --bg-end:   #07112a;        /* darker navy */
+  --surface:  #071428;        /* card background (near-black) */
+  --card-plain:#0f1724;       /* alternate card */
+  --accent:   #0b5cff;        /* vivid blue */
+  --muted:    #9aa7c7;        /* muted blue-gray for captions */
+  --text:     #e6eefb;        /* light text on dark surfaces */
+  --max-width:1100px;
+  --radius:10px;
+  --gap:20px;
+  --pad:22px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* full-page animated gradient */
+html,body{
+  height:100%;
+  margin:0;
+  background: linear-gradient(120deg, var(--bg-start) 0%, #061326 40%, var(--bg-end) 100%);
+  background-size: 300% 300%;
+  animation: bgFlow 18s ease-in-out infinite;
+  color:var(--text);
+}
+
+/* layout container */
+.container{max-width:var(--max-width);margin:0 auto;padding:28px}
+
+/* header: stronger blue accent and animated underline */
+.site-header{
+  background: linear-gradient(90deg, rgba(11,92,255,0.12), rgba(255,255,255,0.02));
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  padding:22px 0;
+  position:relative;
+  overflow:hidden;
+}
+.site-header .container{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.site-header h1{
+  margin:0;
+  font-size:clamp(1.8rem,3vw,2.6rem);
+  letter-spacing:0.6px;
+  color:var(--text);
+  position:relative;
+  z-index:2;
+}
+.tagline{margin:0;color:var(--muted)}
+
+/* subtle animated blue bar under header title */
+.site-header::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:6px;
+  width:60%;
+  background:linear-gradient(90deg, rgba(11,92,255,0.9), rgba(3,168,244,0.8));
+  transform-origin:left;
+  animation: shimmer 4s linear infinite;
+  opacity:0.9;
+  border-top-right-radius:8px;
+  border-bottom-right-radius:8px;
+}
+
+/* main spacing */
+main{padding:18px 0 60px}
+
+/* card styles with glassy dark look and fade-in motion */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:var(--radius);
+  padding:var(--pad);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+  margin-bottom:var(--gap);
+  border: 1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
+  transform: translateY(12px);
+  opacity: 0;
+  animation: fadeUp 600ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+main .card:nth-of-type(1){animation-delay:120ms}
+main .card:nth-of-type(2){animation-delay:220ms}
+main .card:nth-of-type(3){animation-delay:320ms}
+main .card:nth-of-type(4){animation-delay:420ms}
+main .card:nth-of-type(5){animation-delay:520ms}
+main .card:nth-of-type(6){animation-delay:620ms}
+main .card:nth-of-type(7){animation-delay:720ms}
+main .card:nth-of-type(8){animation-delay:820ms}
+main .card:nth-of-type(9){animation-delay:920ms}
+main .card:nth-of-type(10){animation-delay:1020ms}
+.card h2{margin-top:0;margin-bottom:8px;color:var(--text)}
+.card p, .card ul, .card ol{color: #dbe9ff;line-height:1.6;margin:0 0 10px}
+.card ul{padding-left:1.2rem}
+.card ol{padding-left:1.2rem}
+
+/* interactive lift on hover/focus for desktop */
+.card:hover, .card:focus-within{
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(2,6,23,0.75);
+  border-color: rgba(11,92,255,0.18);
+}
+
+/* gallery grid with image float animation */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:12px;
+}
+.gallery figure{
+  margin:0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.01));
+  border-radius:8px;
+  overflow:hidden;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  border:1px solid rgba(255,255,255,0.02);
+}
+.gallery figure:hover{
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(2,6,23,0.6);
+}
+.gallery img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:6px;
+  transition: transform 420ms cubic-bezier(.2,.9,.3,1);
+  transform-origin:center;
+  will-change:transform;
+  animation: floatImg 6s ease-in-out infinite;
+}
+.gallery figure:hover img{ transform: scale(1.04) translateY(-6px); animation-play-state:paused }
+.gallery figcaption{font-size:0.9rem;color:var(--muted);margin-top:8px;text-align:center}
+
+/* timeline & lists */
+#timeline ol{padding-left:1rem;color:var(--text)}
+
+/* footer */
+.site-footer{
+  border-top:1px solid rgba(255,255,255,0.03);
+  background:transparent;
+  padding:18px 0;
+  color:var(--muted);
+}
+.site-footer p{margin:0;font-size:0.9rem;color:var(--muted)}
+
+/* Responsive layout adjustments */
+@media (min-width:900px){
+  main{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+  .card{margin-bottom:0}
+  .gallery{grid-column:1 / -1}
+  #timeline{grid-column:1 / -1}
+}
+
+/* Small screens */
+@media (max-width:600px){
+  .gallery img{height:140px}
+  .container{padding:14px}
+}
+
+/* Keyframes */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px) scale(.998)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes floatImg{
+  0%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-6px) scale(1.02)}
+  100%{transform:translateY(0) scale(1)}
+}
+@keyframes shimmer{
+  0%{transform:translateX(-2%) scaleX(1)}
+  50%{transform:translateX(30%) scaleX(1.05)}
+  100%{transform:translateX(-2%) scaleX(1)}
+}
+@keyframes bgFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* Accessibility: focus states */
+a:focus, button:focus, input:focus, .card:focus-within{
+  outline: 3px solid rgba(11,92,255,0.18);
+  outline-offset:3px;
+}
+
+/* ...existing code... */
